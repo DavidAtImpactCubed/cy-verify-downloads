@@ -60,6 +60,24 @@ module.exports = (on, config) => {
 }
 ```
 
+**For Cypress with the Cypress Cucumber Preprocessor:**
+
+To use this library with the [Cypress Cucumber Preprocessor](https://github.com/badeball/cypress-cucumber-preprocessor), you will need to modify the [preprocessor setup](https://github.com/badeball/cypress-cucumber-preprocessor/blob/master/docs/quick-start.md) slightly, to use the node-modules-polyfill plugin:
+
+```diff
+// mport the polyfill
++ const { NodeModulesPolyfillPlugin } = require('@esbuild-plugins/node-modules-polyfill');
+
+// Modify on file:preprocessor for cucumber:
+      on(
+        "file:preprocessor",
+        createBundler({
+-        plugins: [createEsbuildPlugin(config)],
++        plugins: [NodeModulesPolyfillPlugin(), createEsbuildPlugin(config)],
+        })
+      );
+```
+
 ## Usage
 
 Then, in your test, you can use it like this:
